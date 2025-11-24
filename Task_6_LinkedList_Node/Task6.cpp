@@ -77,7 +77,7 @@ class LinkedLst{
                 cout << curr->val << " -> "; 
                 curr = curr->next;
             }
-            cout << "null " << size;
+            cout << "null, size: " << size;
             cout << endl;
         }
 
@@ -98,22 +98,88 @@ class LinkedLst{
             throw out_of_range("Неправильный индекс");
         }
 
-    };
+        friend LinkedLst operator+(const LinkedLst& list1, const LinkedLst& list2){
+            LinkedLst result;
+
+            Node* curr1 = list1.head;
+            Node* curr2 = list2.head;
+
+            while(curr1 != nullptr && curr2 != nullptr){
+
+                int sum = curr1->val + curr2->val;
+                result.addElem(sum);
+
+                curr1 = curr1->next;
+                curr2 = curr2->next;
+            }
+
+            while(curr1 != nullptr){
+                result.addElem(curr1->val);
+                curr1 = curr1->next;
+            }
+
+            while(curr2 != nullptr){
+                result.addElem(curr2->val);
+                curr2 = curr2->next;
+            }
+
+        return result;
+    }
+
+    friend LinkedLst operator-(const LinkedLst& list1, const LinkedLst& list2){
+        LinkedLst result;
+        Node* curr1 = list1.head;
+        Node* curr2 = list2.head;
+
+        while (curr1 != nullptr && curr2 != nullptr){
+            int razn = curr1->val - curr2->val;
+            result.addElem(razn);
+
+            curr1 = curr1->next;
+            curr2 = curr2->next;
+        }
+        
+        while (curr1 != nullptr){
+            result.addElem(curr1->val);
+            curr1 = curr1->next;
+        }
+
+        while (curr2 != nullptr){
+            result.addElem(curr2->val);
+            curr2 = curr2->next;
+        }
+
+        return result;
+    }
+};
+    
    
 
 int main(){
-    LinkedLst list;
-    list.addElem(13);
-    list.addElem(26);
-    list.addElem(44);
-    list.addElem(54);
-    list.printList();
+    LinkedLst list1;
+    LinkedLst list2;
 
-    list.deleteElem(44);
+    list1.addElem(13);
+    list1.addElem(26);
+    list2.addElem(44);
+    list2.addElem(54);
+    list2.addElem(15);
+    list2.addElem(33);
 
-    list.printList();
-    cout << list[2] << endl;
-    list[2] = 144;
-    list.printList();
+    list2.deleteElem(15);
+    
+    LinkedLst sum = list1 + list2;
+    LinkedLst raz = list2 - list1;
+
+    cout << "1 список: ";
+    list1.printList();
+    cout << "2 список: ";
+    list2.printList();
+    cout << endl;
+
+    cout << "(+): ";
+    sum.printList();
+    cout << "(-): ";
+    raz.printList();
 
 }
