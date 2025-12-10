@@ -75,16 +75,6 @@ class LinkedLst{
             }
         }
 
-        void printList(){
-            Node<T>* curr = head;
-            while(curr != nullptr){
-                cout << curr->val << " -> "; 
-                curr = curr->next;
-            }
-            cout << "null, size: " << size;
-            cout << endl;
-        }
-
         T& operator[](int index){
             if (index < 0 || index >= size) {
                 throw out_of_range("Неправильный индекс");
@@ -155,6 +145,21 @@ class LinkedLst{
 
         return result;
     }
+
+    friend ostream& operator<<(ostream& os, const LinkedLst<T>& list) {
+        Node<T>* curr = list.head;
+        while (curr != nullptr) {
+            os << curr->val;
+            if (curr->next != nullptr) {
+                os << " -> ";
+            }
+            curr = curr->next;
+        }
+        os << "(size: " << list.size << ")";
+        return os;
+    }
+
+    
 
     public:
         static void Menu(){
@@ -251,11 +256,11 @@ class LinkedLst{
                         *sum_result = *lists[num1] + *lists[num2];
                         
                         cout << endl;
-                        lists[num1]->printList();
+                        cout << *lists[num1] << endl;
                         cout << "+" << endl;
-                        lists[num2]->printList();
+                        cout << *lists[num2] << endl;
                         cout << "Результат:" << endl;
-                        sum_result->printList();
+                        cout << *sum_result << endl;
                 } else {
                     cout << "Списка нет!" << endl;
                 }
@@ -277,11 +282,11 @@ class LinkedLst{
                         *raz_result = *lists[num1] - *lists[num2];
                         
                         cout << endl;
-                        lists[num1]->printList();
+                        cout << *lists[num1] << endl;
                         cout << "-" << endl;
-                        lists[num2]->printList();
+                        cout << *lists[num2] << endl;
                         cout << "Результат:" << endl;
-                        raz_result->printList();
+                        cout << *raz_result << endl;
                 } else {
                     cout << "Списка нет!" << endl;
                 }
@@ -296,7 +301,7 @@ class LinkedLst{
                     cin >> index;
                     if (lists.find(nazvan) != lists.end()){
                         try {
-                            lists[nazvan]->printList();
+                            cout << *lists[nazvan] << endl;
                             cout << "Элемент с индексом " << index << ": " << (*lists[nazvan])[index] << endl;
                         } catch (const out_of_range& e) {
                             cout << "Ошибка: " << e.what() << endl;
@@ -312,7 +317,7 @@ class LinkedLst{
                     cin >> nazvan;
 
                     if (lists.find(nazvan) != lists.end()){
-                        lists[nazvan]->printList();
+                        cout << *lists[nazvan] << endl;
                     }
                     break;
                 }
