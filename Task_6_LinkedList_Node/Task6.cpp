@@ -364,33 +364,4 @@ int main(){
         LinkedLst<int>::Menu();
         break;
     }
-    
-
-/* LinkedLst list1;
-    LinkedLst list2;
-
-    list1.addElem(13);
-    list1.addElem(26);
-    list2.addElem(44);
-    list2.addElem(54);
-    list2.addElem(15);
-    list2.addElem(33);
-
-    list2.deleteElem(15);
-    
-    LinkedLst sum = list1 + list2;
-    LinkedLst raz = list2 - list1;
-
-    cout << "1 список: ";
-    list1.printList();
-    cout << "2 список: ";
-    list2.printList();
-    cout << endl;
-
-    cout << "(+): ";
-    sum.printList();
-    cout << "(-): ";
-    raz.printList();
-    */
-
 }
