@@ -2,6 +2,8 @@
 #include <cmath>
 #include <cstdlib>
 #include <stdexcept>
+#include <functional>
+#include <map>
 using namespace std;
 
 template<typename T>
@@ -43,35 +45,22 @@ T safeInput(const string& s) {
         }
     }
 }
+
+// Функция fx с использованием map вместо switch
+double fx(double x, int variant) {
+    static const map<int, function<double(double)>> functions = {
+        {0, [](double x) { return x; }},
+        {1, [](double x) { return x * x; }},
+        {2, [](double x) { return exp(x); }},
+        {3, [](double x) { return sin(x); }}
+    };
     
-
-double fx (double x, int variant){
-
-    switch (variant)
-    {
-
-    case 0:
-        return x;
-        break;
-
-    case 1:
-        return x * x;
-        break;
-
-    case 2:
-        return exp(x);
-        break;
-
-    case 3:
-        return sin(x);
-        break;
-    
-    default:
-
-    throw invalid_argument ("Выбрана неверная команда");
-    return 0;
+    auto it = functions.find(variant);
+    if (it != functions.end()) {
+        return it->second(x);
     }
-
+    
+    throw invalid_argument("Выбрана неверная команда");
 }
 
 int main(){
@@ -80,33 +69,25 @@ int main(){
 
         cout << "0 - f(x)" << endl;
         cout << "1 - f(x^2):" << endl;
-        cout << "2 - f(e^2):" << endl;
+        cout << "2 - f(e^x):" << endl;
         cout << "3 - f(sin(x)):" << endl;
         
         int var = safeInput<int>("Выбрать вид функции: ");
 
         double result;
 
-        if (x>0){
-
-            result = sin(x) * (pow(1 + abs(pow(fx(x,var),4)),-1));
-            
-        }else{
-
-            result = pow(pow(cos(x),2),1.0/3.0);
+        if (x > 0) {
+            result = sin(x) * (pow(1 + abs(pow(fx(x, var), 4)), -1));
+        } else {
+            result = pow(pow(cos(x), 2), 1.0/3.0);
         }
 
-        cout << "Ответ: "<<result << endl;
+        cout << "Ответ: " << result << endl;
     }
-
     catch (const invalid_argument & e){
-        cout << e.what() <<endl;
+        cout << e.what() << endl;
         return 1;
     }
-
-
-
-
 
     return 0;
 }
